@@ -1,8 +1,7 @@
 import React, { Fragment } from 'react';
 
 import HeaderCartButton from './HeaderCartButton.js';
-// Use the local image
-import mealsImage from '../../assets/meals.jpg';
+import mealsImage from '../../assets/meals.jpg'; // Use the local image
 import classes from './Header.module.css';
 
 const Header = () => {
