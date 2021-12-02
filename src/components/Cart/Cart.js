@@ -15,8 +15,13 @@ const Cart = (props) => {
   // 因為 Cart 在 App 中就會因為 Click 開關購物車而重新渲染，無須透過 hasItems 來重新渲染 Cart
   // 順序: 開關 Cart 重新渲染 => 判斷 hasItems => 判斷 Order 按鈕是否出現
 
-  const cartItemRemoveHandler = (id) => {};
-  const cartItemAddHandler = (item) => {};
+  const cartItemRemoveHandler = (id) => {
+    cartCtx.removeItem(id);
+  };
+  const cartItemAddHandler = (item) => {
+    cartCtx.addItem({ ...item, amount: 1 });
+  };
+
   const cartItem = (
     <ul className={classes['cart-items']}>
       {cartCtx.items.map((item) => (
