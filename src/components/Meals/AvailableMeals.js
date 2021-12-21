@@ -8,6 +8,7 @@ import classes from './AvailableMeals.module.css';
 const AvailableMeals = () => {
   const [meals, setMeals] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [httpError, setHttpError] = useState(null);
 
   useEffect(() => {
     // Effect callbacks are synchronous to prevent race conditions
@@ -15,6 +16,9 @@ const AvailableMeals = () => {
       const response = await fetch(
         'https://react-http-14f5a-default-rtdb.firebaseio.com/meals.json'
       );
+      if (!response.ok) {
+        throw new Error('Something went wrong!');
+      }
       const responseData = await response.json();
       // turn object to array
       const loadedData = [];
@@ -30,13 +34,25 @@ const AvailableMeals = () => {
       setIsLoading(false);
     };
 
-    fetchMeals();
+    // or use try/catch inside the fetchMeals function declaration
+    fetchMeals().catch((error) => {
+      setIsLoading(false);
+      setHttpError(error.message);
+    });
   }, []);
 
   if (isLoading) {
     return (
       <section className={classes['meals-loading']}>
         <p>Loading...</p>
+      </section>
+    );
+  }
+
+  if (httpError) {
+    return (
+      <section className={classes['meals-error']}>
+        <p>{httpError}</p>
       </section>
     );
   }
